@@ -2,6 +2,19 @@ name: My Github Action
 on: [push]
 
 jobs:
+  publish-docker:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - run: |
+    docker build -t docker.pkg.github.com/andersjanmyr/my-github-action/my-github-action:${{ github.sha }} .
+    docker tag docker.pkg.github.com/andersjanmyr/my-github-action/my-github-action:${{ github.sha }} docker.pkg.github.com/andersjanmyr/my-github-action/my-github-action:latest
+        docker login docker.pkg.github.com -u andersjanmyr -p $GITHUB_TOKEN
+        docker push docker.pkg.github.com/andersjanmyr/my-github-action/my-github-action:${{ github.sha }}
+        docker push docker.pkg.github.com/andersjanmyr/my-github-action/my-github-action:latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   hello_world_job:
     runs-on: ubuntu-latest
     name: A job to say hello
@@ -14,17 +27,4 @@ jobs:
           who-to-greet: 'Mona the Octocat'
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
-
-  publish-docker:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - run: |
-        docker build -t docker.pkg.github.com/andersjanmyr/actions/my-github-action:${{ github.sha }} .
-        docker tag docker.pkg.github.com/andersjanmyr/actions/my-github-action:${{ github.sha }} docker.pkg.github.com/andersjanmyr/actions/my-github-action:latest
-        docker login docker.pkg.github.com -u andersjanmyr -p $GITHUB_TOKEN
-        docker push docker.pkg.github.com/andersjanmyr/actions/my-github-action:${{ github.sha }}
-        docker push docker.pkg.github.com/andersjanmyr/actions/my-github-action:latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
