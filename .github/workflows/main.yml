@@ -7,7 +7,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - run: |
-    docker build -t docker.pkg.github.com/andersjanmyr/my-github-action/my-github-action:${{ github.sha }} .
+  docker build -t docker.pkg.github.com/andersjanmyr/my-github-action/my-github-action:${{ github.sha }} .
         docker tag docker.pkg.github.com/andersjanmyr/my-github-action/my-github-action:${{ github.sha }} docker.pkg.github.com/andersjanmyr/my-github-action/my-github-action:latest
         docker login docker.pkg.github.com -u andersjanmyr -p $GITHUB_TOKEN
         docker push docker.pkg.github.com/andersjanmyr/my-github-action/my-github-action:${{ github.sha }}
