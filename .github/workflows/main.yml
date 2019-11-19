@@ -33,12 +33,9 @@ jobs:
     name: from Docker Image
     steps:
       - name: From docker image
-        run: |
-          docker login docker.pkg.github.com -u andersjanmyr -p ${{secrets.GITHUB_TOKEN}}
-          docker pull docker.pkg.github.com/andersjanmyr/my-github-action/my-github-action:latest
-        id: hello
       - uses: actions/checkout@v1
       - uses: ./
+        id: hello
         with:
           who-to-greet: 'Mona the Octocat'
         env:
