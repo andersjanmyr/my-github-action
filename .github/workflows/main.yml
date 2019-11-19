@@ -32,12 +32,12 @@ jobs:
     runs-on: ubuntu-latest
     name: from Docker Image
     steps:
-      - uses: actions/checkout@v1
+      - run: |
+          docker login docker.pkg.github.com -u andersjanmyr -p $GITHUB_TOKEN
       - uses: docker://docker.pkg.github.com/andersjanmyr/my-github-action/my-github-action:latest
         name: From docker image
         id: hello
         with:
           who-to-greet: 'Mona the Octocat'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
