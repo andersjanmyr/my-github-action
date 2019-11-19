@@ -26,7 +26,9 @@ jobs:
         with:
           who-to-greet: 'Mona the Octocat'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_REGISTRY_URL: docker.pkg.github.com
+          DOCKER_USERNAME: ${{secrets.GITHUB_PKG_REGISTRY_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.GITHUB_PKG_REGISTRY_PASSWORD}}
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
 
