@@ -2,6 +2,19 @@ name: My Github Action
 on: [push]
 
 jobs:
+  hello_local:
+    runs-on: ubuntu-latest
+    name: Hello Local Dockerfile
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ./
+        name: From Dockerfile
+        id: hello
+        with:
+          who-to-greet: 'Mona the Octocat'
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
+
   publish-docker:
     runs-on: ubuntu-latest
     steps:
@@ -15,17 +28,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  hello_world_job:
+  hello_from_docker_image:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: from Docker Image
     steps:
       - uses: actions/checkout@v1
       - uses: docker://docker.pkg.github.com/andersjanmyr/my-github-action/my-github-action:latest
-        name: My github action from docker
+        name: From docker image
         id: hello
         with:
           who-to-greet: 'Mona the Octocat'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
-
