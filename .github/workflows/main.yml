@@ -20,8 +20,8 @@ jobs:
     name: A job to say hello
     steps:
       - uses: actions/checkout@v1
-      - uses: ./ # Uses an action in the root directory
-        name: My github action
+      - uses: docker://docker.pkg.github.com/andersjanmyr/my-github-action/my-github-action:latest
+        name: My github action from docker
         id: hello
         with:
           who-to-greet: 'Mona the Octocat'
